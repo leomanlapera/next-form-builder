@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { LabelAttribute } from "../attributes/label/component";
 import { basicFormBuilder } from "./definition";
 import { TextFieldEntity } from "../entities/textfield/component";
+import { saveFormSchema } from "@/actions/actions";
 
 function TextFieldAttributes() {
   return <LabelAttribute />;
@@ -35,7 +36,13 @@ export function BasicFormBuilder() {
     },
   });
 
-  async function submitFormSchema() {}
+  async function submitFormSchema() {
+    const validationResult = await builderStore.validateSchema();
+
+    if (validationResult.success) {
+      await saveFormSchema(validationResult.data);
+    }
+  }
 
   return (
     <div>
